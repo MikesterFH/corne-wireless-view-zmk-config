@@ -114,7 +114,7 @@ Hold TAB:      Windows mode ──▶ WM_WIN (Alt+key,      GlazeWM)
 ```
 | hold |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  | TAB |      |
 |      |  A  |  S  |     |  F  |  T  |   |  H  |  J  |  K  |  L  |     |      |
-|      |     |     |  C  |  R  |     |   |     |     |     |     |     |      |
+| SHFT |     |     |  C  |  R  |     |   |     |     |     |     |     |      |
                    |     |     | SPC |   |     | SHFT|     |
 ```
 
@@ -122,7 +122,7 @@ Hold TAB:      Windows mode ──▶ WM_WIN (Alt+key,      GlazeWM)
 - Every key sends the OS window-manager modifier plus the key, so both WMs bind the same keys:
   - Windows (GlazeWM): `Alt` – `Ctrl+Alt` is AltGr on Windows and would swallow `@ # |`.
   - macOS (AeroSpace): `Ctrl+Alt` – matches `~/.config/aerospace/aerospace.toml` in the dotfiles.
-- `SHFT` on the right thumb adds Shift, i.e. the "move" variant: `TAB` + `SHFT` + `H` = move window
+- `SHFT` (left, or right thumb) adds Shift, i.e. the "move" variant: `TAB` + `SHFT` + `H` = move window
   left, `TAB` + `SHFT` + `3` = move window to workspace 3.
 - AeroSpace meaning: `1–9` workspace, `H/J/K/L` focus, `TAB` back-and-forth, `A` accordion,
   `S` service mode, `F` fullscreen (`+SHFT` float), `T` tiles, `R` resize mode, `C` Raycast cheat

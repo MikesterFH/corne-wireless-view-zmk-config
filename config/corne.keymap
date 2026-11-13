@@ -261,15 +261,15 @@
 // -----------------------------------------------------------------------------------------
 // | hold |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  | TAB |      |
 // |      |  A  |  S  |     |  F  |  T  |   |  H  |  J  |  K  |  L  |     |      |
-// |      |     |     |  C  |  R  |     |   |     |     |     |     |     |      |
+// | SHFT |     |     |  C  |  R  |     |   |     |     |     |     |     |      |
 //                    |     |     | SPC |   |     | SHFT|     |
 // Jede Taste sendet Modifier + Taste (Windows: Alt, z.B. Alt+H)
-// SHFT auf dem Daumen ergibt die Shift-Variante (verschieben)
+// SHFT (links oder Daumen) ergibt die Shift-Variante (verschieben)
                         display-name = "WM Win";
                         bindings = <
    &trans &kp WIN_WM(N1) &kp WIN_WM(N2) &kp WIN_WM(N3) &kp WIN_WM(N4) &kp WIN_WM(N5)   &kp WIN_WM(N6) &kp WIN_WM(N7) &kp WIN_WM(N8) &kp WIN_WM(N9) &kp WIN_WM(TAB) &none
    &none  &kp WIN_WM(A)  &kp WIN_WM(S)  &none          &kp WIN_WM(F)  &kp WIN_WM(T)    &kp WIN_WM(H)  &kp WIN_WM(J)  &kp WIN_WM(K)  &kp WIN_WM(L)  &none           &none
-   &none  &none          &none          &kp WIN_WM(C)  &kp WIN_WM(R)  &none            &none          &none          &none          &none          &none           &none
+   &kp LSHFT &none       &none          &kp WIN_WM(C)  &kp WIN_WM(R)  &none            &none          &none          &none          &none          &none           &none
                                         &none          &none          &kp WIN_WM(SPACE)   &none     &kp LSHFT      &none
                         >;
                 };
@@ -280,7 +280,7 @@
                         bindings = <
    &trans &kp MAC_WM(N1) &kp MAC_WM(N2) &kp MAC_WM(N3) &kp MAC_WM(N4) &kp MAC_WM(N5)   &kp MAC_WM(N6) &kp MAC_WM(N7) &kp MAC_WM(N8) &kp MAC_WM(N9) &kp MAC_WM(TAB) &none
    &none  &kp MAC_WM(A)  &kp MAC_WM(S)  &none          &kp MAC_WM(F)  &kp MAC_WM(T)    &kp MAC_WM(H)  &kp MAC_WM(J)  &kp MAC_WM(K)  &kp MAC_WM(L)  &none           &none
-   &none  &none          &none          &kp MAC_WM(C)  &kp MAC_WM(R)  &none            &none          &none          &none          &none          &none           &none
+   &kp LSHFT &none       &none          &kp MAC_WM(C)  &kp MAC_WM(R)  &none            &none          &none          &none          &none          &none           &none
                                         &none          &none          &kp MAC_WM(SPACE)   &none     &kp LSHFT      &none
                         >;
                 };
