@@ -124,10 +124,35 @@ Hold TAB:      Windows mode ──▶ WM_WIN (Alt+key,      GlazeWM)
   - macOS (AeroSpace): `Ctrl+Alt` – matches `~/.config/aerospace/aerospace.toml` in the dotfiles.
 - `SHFT` (left, or right thumb) adds Shift, i.e. the "move" variant: `TAB` + `SHFT` + `H` = move window
   left, `TAB` + `SHFT` + `3` = move window to workspace 3.
-- AeroSpace meaning: `1–9` workspace, `H/J/K/L` focus, `TAB` back-and-forth, `A` accordion,
-  `S` service mode, `F` fullscreen (`+SHFT` float), `T` tiles, `R` resize mode, `C` Raycast cheat
-  sheet, `SPC` Raycast.
 - Unused positions are `&none`, so a stray key in the layer does nothing.
+
+The diagram shows the **key sent**, not the physical key. Physical key (base layer) → action:
+
+| Physical key | Sends (macOS) | AeroSpace | `+ SHFT` |
+|---|---|---|---|
+| `Q W E R T` | `⌃⌥1`–`⌃⌥5` | workspace 1–5 | move window to workspace 1–5 |
+| `Z U I O` | `⌃⌥6`–`⌃⌥9` | workspace 6–9 | move window to workspace 6–9 |
+| `P` | `⌃⌥tab` | previous workspace | move workspace to next monitor |
+| `A` | `⌃⌥a` | accordion layout (again: flip orientation) | – |
+| `S` | `⌃⌥s` | service mode | – |
+| `F` | `⌃⌥f` | fullscreen | float / tile window |
+| `G` | `⌃⌥t` | tiles layout (again: flip orientation) | – |
+| `H J K L` | `⌃⌥h/j/k/l` | focus left/down/up/right | move window left/down/up/right |
+| `C` | `⌃⌥c` | Raycast shortcuts cheat sheet | – |
+| `V` | `⌃⌥r` | resize mode | – |
+| `SPC` | `⌃⌥space` | Raycast | – |
+
+AeroSpace modes, reachable while still holding `TAB`:
+
+- **Resize** (`V`): `H/L` narrower/wider, `J/K` taller/shorter, `V` again (or `esc`) leaves.
+  The `ctrl-alt-*` variants live in the dotfiles' `aerospace.toml` resize mode.
+- **Service** (`S`), one-shot maintenance, each key returns to normal mode. Not ctrl-alt bound
+  yet, so release `TAB` first: `esc` reload config, `r` reset (flatten) the workspace layout,
+  `backspace` close all other windows, `Shift+H/J/K/L` join the window with its neighbour into a
+  sub-container.
+- **Accordion vs. tiles**: tiles places windows side by side; accordion stacks them on top of each
+  other, the focused one in front and the others peeking out 30 px at the edge, like tabs.
+  Useful on small screens or for many windows in one workspace.
 
 ## 3. Configuration – making a change
 
