@@ -52,16 +52,16 @@
 #define WIN_RBRC RA(BSLH)    // }
 #define WIN_EURO RA(E)       // €
 
-// Schweizerdeutsch macOS (Option)
-#define MAC_AT   LA(G)       // @
-#define MAC_HASH LA(N3)      // #
-#define MAC_PIPE LA(N7)      // |
-#define MAC_BSLH LA(LS(N7))  // backslash
-#define MAC_LBKT LA(N5)      // [
-#define MAC_RBKT LA(N6)      // ]
-#define MAC_LBRC LA(N8)      // {
-#define MAC_RBRC LA(N9)      // }
-#define MAC_EURO LA(E)       // €
+// Schweizerdeutsch macOS (rechte Option: Terminals wie WezTerm werten linke Option als Meta)
+#define MAC_AT   RA(G)       // @
+#define MAC_HASH RA(N3)      // #
+#define MAC_PIPE RA(N7)      // |
+#define MAC_BSLH RA(LS(N7))  // backslash
+#define MAC_LBKT RA(N5)      // [
+#define MAC_RBKT RA(N6)      // ]
+#define MAC_LBRC RA(N8)      // {
+#define MAC_RBRC RA(N9)      // }
+#define MAC_EURO RA(E)       // €
 
 / {
         // ^ ` ~ sind auf CH-DE Dead Keys: Taste + Space ergibt das Zeichen direkt
@@ -84,7 +84,7 @@
                 mac_tilde: mac_tilde {
                         compatible = "zmk,behavior-macro";
                         #binding-cells = <0>;
-                        bindings = <&macro_tap &kp LA(N) &kp SPACE>;
+                        bindings = <&macro_tap &kp RA(N) &kp SPACE>;
                 };
         };
 
