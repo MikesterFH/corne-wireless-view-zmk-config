@@ -17,6 +17,7 @@
 #define RAISE_WIN 2
 #define MAC       3
 #define RAISE_MAC 4
+#define ADJUST    5
 
 // CH-DE, gleich auf Windows und macOS
 #define CH_UE    LBKT        // ü
@@ -87,6 +88,19 @@
                 };
         };
 
+        // Lower + Raise gleichzeitig halten aktiviert Adjust (Windows- und Mac-Modus)
+        conditional_layers {
+                compatible = "zmk,conditional-layers";
+                adjust_win {
+                        if-layers = <LOWER RAISE_WIN>;
+                        then-layer = <ADJUST>;
+                };
+                adjust_mac {
+                        if-layers = <LOWER RAISE_MAC>;
+                        then-layer = <ADJUST>;
+                };
+        };
+
         keymap {
                 compatible = "zmk,keymap";
 
@@ -96,7 +110,7 @@
 // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ö  |  ä   |
 // | SHFT |  Y  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  -  | ESC  |
 //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
-                        label = "Base";
+                        display-name = "Base";
                         bindings = <
    &kp TAB   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
    &kp LCTRL &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
@@ -107,15 +121,14 @@
                 lower_layer {
 // -----------------------------------------------------------------------------------------
 // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
-// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-// | SHFT | MAC |     |     |     |     |   |     |     |     |     |     |      |
+// | CTRL |     |     |     |     |     |   | LFT | DWN |  UP | RGT |     |      |
+// | SHFT |     |     |     |     |     |   | HOME| PGDN| PGUP| END |     |      |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
-// MAC: schaltet Symbol-Layer zwischen Windows (Standard) und macOS um
-                        label = "Lower";
+                        display-name = "Lower";
                         bindings = <
-   &kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
-   &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &kp LSHFT  &tog MAC     &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &trans
+   &kp TAB    &kp N1 &kp N2 &kp N3 &kp N4 &kp N5   &kp N6   &kp N7    &kp N8    &kp N9    &kp N0 &kp BSPC
+   &kp LCTRL  &trans &trans &trans &trans &trans   &kp LEFT &kp DOWN  &kp UP    &kp RIGHT &trans &trans
+   &kp LSHFT  &trans &trans &trans &trans &trans   &kp HOME &kp PG_DN &kp PG_UP &kp END   &trans &trans
                           	        &kp LGUI     &trans       &kp SPACE      &kp RET  &trans   &kp LALT
                         >;
                 };
@@ -126,7 +139,7 @@
 // | CTRL |  ü  |  ö  |  ä  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  |  `   |
 // | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" |  ~   |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
-                        label = "Raise Win";
+                        display-name = "Raise Win";
                         bindings = <
    &kp  TAB  &kp CH_EXCL &kp WIN_AT &kp WIN_HASH &kp CH_DLLR  &kp CH_PRCNT   &ch_caret    &kp CH_AMPS  &kp CH_ASTRK &kp CH_LPAR  &kp CH_RPAR  &kp BSPC
    &kp LCTRL &kp CH_UE   &kp CH_OE  &kp CH_AE    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp WIN_LBKT &kp WIN_RBKT &kp WIN_BSLH &ch_grave
@@ -137,7 +150,7 @@
 
                 mac_layer {
 // Overlay, aktiv im Mac-Modus: Raise-Taste oeffnet den macOS Symbol-Layer
-                        label = "Mac";
+                        display-name = "Mac";
                         bindings = <
    &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
    &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
@@ -152,12 +165,29 @@
 // | CTRL |  ü  |  ö  |  ä  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  |  `   |
 // | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" |  ~   |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
-                        label = "Raise Mac";
+                        display-name = "Raise Mac";
                         bindings = <
    &kp  TAB  &kp CH_EXCL &kp MAC_AT &kp MAC_HASH &kp CH_DLLR  &kp CH_PRCNT   &ch_caret    &kp CH_AMPS  &kp CH_ASTRK &kp CH_LPAR  &kp CH_RPAR  &kp BSPC
    &kp LCTRL &kp CH_UE   &kp CH_OE  &kp CH_AE    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp MAC_LBKT &kp MAC_RBKT &kp MAC_BSLH &ch_grave
    &kp LSHFT &kp CH_LT   &kp CH_GT  &kp CH_QMARK &kp MAC_EURO &kp CH_FSLH    &kp CH_UNDER &kp CH_PLUS  &kp MAC_LBRC &kp MAC_RBRC &kp MAC_PIPE &mac_tilde
                     	     &kp LGUI     &trans       &kp SPACE      &kp RET      &trans       &kp LALT
+                        >;
+                };
+
+                adjust_layer {
+// -----------------------------------------------------------------------------------------
+// | BOOT |  F1 |  F2 |  F3 |  F4 |  F5 |   |  F6 |  F7 |  F8 |  F9 | F10 | BOOT |
+// | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | PREV| VOL-| VOL+| NEXT| F11 |  F12 |
+// |      | MAC |     |     |     |     |   | MUTE| PLAY| BRI-| BRI+|     |      |
+//                    |     |     |     |   |     |     |     |
+// BOOT: Bootloader der jeweiligen Haelfte (zum Flashen)
+// MAC:  schaltet Symbol-Layer zwischen Windows (Standard) und macOS um
+                        display-name = "Adjust";
+                        bindings = <
+   &bootloader &kp F1       &kp F2       &kp F3       &kp F4       &kp F5         &kp F6     &kp F7       &kp F8       &kp F9       &kp F10 &bootloader
+   &bt BT_CLR  &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp C_PREV &kp C_VOL_DN &kp C_VOL_UP &kp C_NEXT   &kp F11 &kp F12
+   &trans      &tog MAC     &trans       &trans       &trans       &trans         &kp C_MUTE &kp C_PP     &kp C_BRI_DN &kp C_BRI_UP &trans  &trans
+                                         &trans       &trans       &trans         &trans     &trans       &trans
                         >;
                 };
         };
