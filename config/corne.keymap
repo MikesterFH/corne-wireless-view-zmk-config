@@ -136,14 +136,14 @@
                 raise_win_layer {
 // -----------------------------------------------------------------------------------------
 // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
-// | CTRL |  ü  |  ö  |  ä  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-// | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+// | CTRL |  ü  |  ~  |  `  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  | CTRL |
+// | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" | SHFT |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         display-name = "Raise Win";
                         bindings = <
    &kp  TAB  &kp CH_EXCL &kp WIN_AT &kp WIN_HASH &kp CH_DLLR  &kp CH_PRCNT   &ch_caret    &kp CH_AMPS  &kp CH_ASTRK &kp CH_LPAR  &kp CH_RPAR  &kp BSPC
-   &kp LCTRL &kp CH_UE   &kp CH_OE  &kp CH_AE    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp WIN_LBKT &kp WIN_RBKT &kp WIN_BSLH &ch_grave
-   &kp LSHFT &kp CH_LT   &kp CH_GT  &kp CH_QMARK &kp WIN_EURO &kp CH_FSLH    &kp CH_UNDER &kp CH_PLUS  &kp WIN_LBRC &kp WIN_RBRC &kp WIN_PIPE &win_tilde
+   &kp LCTRL &kp CH_UE   &win_tilde &ch_grave    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp WIN_LBKT &kp WIN_RBKT &kp WIN_BSLH &kp RCTRL
+   &kp LSHFT &kp CH_LT   &kp CH_GT  &kp CH_QMARK &kp WIN_EURO &kp CH_FSLH    &kp CH_UNDER &kp CH_PLUS  &kp WIN_LBRC &kp WIN_RBRC &kp WIN_PIPE &kp RSHFT
                     	     &kp LGUI     &trans       &kp SPACE      &kp RET      &trans       &kp LALT
                         >;
                 };
@@ -162,14 +162,14 @@
                 raise_mac_layer {
 // -----------------------------------------------------------------------------------------
 // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
-// | CTRL |  ü  |  ö  |  ä  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-// | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+// | CTRL |  ü  |  ~  |  `  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  | CTRL |
+// | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" | SHFT |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
                         display-name = "Raise Mac";
                         bindings = <
    &kp  TAB  &kp CH_EXCL &kp MAC_AT &kp MAC_HASH &kp CH_DLLR  &kp CH_PRCNT   &ch_caret    &kp CH_AMPS  &kp CH_ASTRK &kp CH_LPAR  &kp CH_RPAR  &kp BSPC
-   &kp LCTRL &kp CH_UE   &kp CH_OE  &kp CH_AE    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp MAC_LBKT &kp MAC_RBKT &kp MAC_BSLH &ch_grave
-   &kp LSHFT &kp CH_LT   &kp CH_GT  &kp CH_QMARK &kp MAC_EURO &kp CH_FSLH    &kp CH_UNDER &kp CH_PLUS  &kp MAC_LBRC &kp MAC_RBRC &kp MAC_PIPE &mac_tilde
+   &kp LCTRL &kp CH_UE   &mac_tilde &ch_grave    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp MAC_LBKT &kp MAC_RBKT &kp MAC_BSLH &kp RCTRL
+   &kp LSHFT &kp CH_LT   &kp CH_GT  &kp CH_QMARK &kp MAC_EURO &kp CH_FSLH    &kp CH_UNDER &kp CH_PLUS  &kp MAC_LBRC &kp MAC_RBRC &kp MAC_PIPE &kp RSHFT
                     	     &kp LGUI     &trans       &kp SPACE      &kp RET      &trans       &kp LALT
                         >;
                 };
