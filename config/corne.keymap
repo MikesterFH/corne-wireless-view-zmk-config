@@ -18,6 +18,8 @@
 #define MAC       3
 #define RAISE_MAC 4
 #define ADJUST    5
+#define WM_WIN    6
+#define WM_MAC    7
 
 // CH-DE, gleich auf Windows und macOS
 #define CH_UE    LBKT        // ü
@@ -65,6 +67,18 @@
 // macOS vertauscht bei ZMK-Boards die ISO-Tasten < und §, darum GRAVE statt NUBS
 #define MAC_LT   GRAVE       // <
 #define MAC_GT   LS(GRAVE)   // >
+
+// Fenstermanager-Layer: gleiche Tasten, Modifier pro OS
+// Windows GlazeWM: Alt (Ctrl+Alt waere AltGr), macOS AeroSpace: Ctrl+Alt
+#define WIN_WM(key) LA(key)
+#define MAC_WM(key) LC(LA(key))
+
+// TAB halten = WM-Layer. balanced: Layer schon, wenn waehrend TAB eine
+// andere Taste gedrueckt und losgelassen wird (sonst erst nach 200 ms)
+&lt {
+        flavor = "balanced";
+        tapping-term-ms = <200>;
+};
 
 / {
         // ^ ` ~ sind auf CH-DE Dead Keys: Taste + Space ergibt das Zeichen direkt
@@ -157,13 +171,13 @@
 
                 default_layer {
 // -----------------------------------------------------------------------------------------
-// |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Z  |  U   |  I  |  O  |  P  | BKSP |
+// |TAB/WM|  Q  |  W  |  E  |  R  |  T  |   |  Z  |  U   |  I  |  O  |  P  | BKSP |
 // | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ö  |  ä   |
 // | SHFT |  Y  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  -  | ESC  |
 //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
                         display-name = "Win";
                         bindings = <
-   &kp TAB   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
+   &lt WM_WIN TAB &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
    &kp LCTRL &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
    &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp ESC
                   &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE_WIN &kp LALT
@@ -200,10 +214,11 @@
                 };
 
                 mac_layer {
-// Overlay, aktiv im Mac-Modus: Raise-Taste oeffnet den macOS Symbol-Layer
+// Overlay, aktiv im Mac-Modus: Raise-Taste oeffnet den macOS Symbol-Layer,
+// TAB halten den AeroSpace-Layer
                         display-name = "Mac";
                         bindings = <
-   &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+   &lt WM_MAC TAB &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
    &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
    &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
                         &trans &trans &trans   &trans &mo RAISE_MAC &trans
@@ -239,6 +254,34 @@
    &bt BT_CLR  &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp C_PREV &kp C_VOL_DN &kp C_VOL_UP &kp C_NEXT   &kp F11 &kp F12
    &trans      &tog MAC     &trans       &trans       &trans       &trans         &kp C_MUTE &kp C_PP     &kp C_BRI_DN &kp C_BRI_UP &trans  &trans
                                          &trans       &trans       &trans         &trans     &trans       &trans
+                        >;
+                };
+
+                wm_win_layer {
+// -----------------------------------------------------------------------------------------
+// | hold |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  | TAB |      |
+// |      |  A  |  S  |     |  F  |  T  |   |  H  |  J  |  K  |  L  |     |      |
+// |      |     |     |  C  |  R  |     |   |     |     |     |     |     |      |
+//                    |     |     | SPC |   |     | SHFT|     |
+// Jede Taste sendet Modifier + Taste (Windows: Alt, z.B. Alt+H)
+// SHFT auf dem Daumen ergibt die Shift-Variante (verschieben)
+                        display-name = "WM Win";
+                        bindings = <
+   &trans &kp WIN_WM(N1) &kp WIN_WM(N2) &kp WIN_WM(N3) &kp WIN_WM(N4) &kp WIN_WM(N5)   &kp WIN_WM(N6) &kp WIN_WM(N7) &kp WIN_WM(N8) &kp WIN_WM(N9) &kp WIN_WM(TAB) &none
+   &none  &kp WIN_WM(A)  &kp WIN_WM(S)  &none          &kp WIN_WM(F)  &kp WIN_WM(T)    &kp WIN_WM(H)  &kp WIN_WM(J)  &kp WIN_WM(K)  &kp WIN_WM(L)  &none           &none
+   &none  &none          &none          &kp WIN_WM(C)  &kp WIN_WM(R)  &none            &none          &none          &none          &none          &none           &none
+                                        &none          &none          &kp WIN_WM(SPACE)   &none     &kp LSHFT      &none
+                        >;
+                };
+
+                wm_mac_layer {
+// Wie WM Win, Modifier macOS: Ctrl+Alt (AeroSpace, z.B. Ctrl+Alt+H)
+                        display-name = "WM Mac";
+                        bindings = <
+   &trans &kp MAC_WM(N1) &kp MAC_WM(N2) &kp MAC_WM(N3) &kp MAC_WM(N4) &kp MAC_WM(N5)   &kp MAC_WM(N6) &kp MAC_WM(N7) &kp MAC_WM(N8) &kp MAC_WM(N9) &kp MAC_WM(TAB) &none
+   &none  &kp MAC_WM(A)  &kp MAC_WM(S)  &none          &kp MAC_WM(F)  &kp MAC_WM(T)    &kp MAC_WM(H)  &kp MAC_WM(J)  &kp MAC_WM(K)  &kp MAC_WM(L)  &none           &none
+   &none  &none          &none          &kp MAC_WM(C)  &kp MAC_WM(R)  &none            &none          &none          &none          &none          &none           &none
+                                        &none          &none          &kp MAC_WM(SPACE)   &none     &kp LSHFT      &none
                         >;
                 };
         };

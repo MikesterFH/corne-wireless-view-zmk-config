@@ -49,6 +49,8 @@ The prefixes in `corne.keymap`:
 | 3 | `MAC`       | Mac       | toggle `MAC` in Adjust; overlay that only remaps `RSE` |
 | 4 | `RAISE_MAC` | Raise Mac | hold right thumb `RSE` (Mac mode) |
 | 5 | `ADJUST`    | Adjust    | hold `LWR` + `RSE` (conditional layer) |
+| 6 | `WM_WIN`    | WM Win    | hold `TAB` (Windows mode) |
+| 7 | `WM_MAC`    | WM Mac    | hold `TAB` (Mac mode, via `MAC` overlay) |
 
 Data flow when pressing `RSE`:
 
@@ -56,6 +58,9 @@ Data flow when pressing `RSE`:
 Windows mode:  BASE ──RSE──▶ RAISE_WIN
 Mac mode:      BASE + MAC ──RSE──▶ RAISE_MAC   (MAC overlay replaces &mo RAISE_WIN)
 Both:          LWR + RSE ──▶ ADJUST            (conditional_layers)
+
+Hold TAB:      Windows mode ──▶ WM_WIN (Alt+key,      GlazeWM)
+               Mac mode     ──▶ WM_MAC (Ctrl+Alt+key, AeroSpace)
 ```
 
 ## 2. Usage
@@ -63,7 +68,7 @@ Both:          LWR + RSE ──▶ ADJUST            (conditional_layers)
 ### Base (`Win`)
 
 ```
-| TAB  |  Q  |  W  |  E  |  R  |  T  |   |  Z  |  U  |  I  |  O  |  P  | BKSP |
+|TAB/WM|  Q  |  W  |  E  |  R  |  T  |   |  Z  |  U  |  I  |  O  |  P  | BKSP |
 | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J  |  K  |  L  |  ö  |  ä   |
 | SHFT |  Y  |  X  |  C  |  V  |  B  |   |  N  |  M  |  ,  |  .  |  -  | ESC  |
                    | GUI | LWR | SPC |   | ENT | RSE | ALT |
@@ -103,6 +108,26 @@ Both:          LWR + RSE ──▶ ADJUST            (conditional_layers)
   The state is **not persisted**: after a reboot the keyboard starts in Windows mode.
 - `BOOT`: puts the half it is pressed on into the bootloader (for flashing).
 - `BTCLR` clears the current Bluetooth profile, `BT1`–`BT5` select profiles 0–4.
+
+### WM – window manager (hold `TAB`)
+
+```
+| hold |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  | TAB |      |
+|      |  A  |  S  |     |  F  |  T  |   |  H  |  J  |  K  |  L  |     |      |
+|      |     |     |  C  |  R  |     |   |     |     |     |     |     |      |
+                   |     |     | SPC |   |     | SHFT|     |
+```
+
+- Tapping `TAB` still sends `TAB`; holding it opens the layer (`&lt`, flavor `balanced`, 200 ms).
+- Every key sends the OS window-manager modifier plus the key, so both WMs bind the same keys:
+  - Windows (GlazeWM): `Alt` – `Ctrl+Alt` is AltGr on Windows and would swallow `@ # |`.
+  - macOS (AeroSpace): `Ctrl+Alt` – matches `~/.config/aerospace/aerospace.toml` in the dotfiles.
+- `SHFT` on the right thumb adds Shift, i.e. the "move" variant: `TAB` + `SHFT` + `H` = move window
+  left, `TAB` + `SHFT` + `3` = move window to workspace 3.
+- AeroSpace meaning: `1–9` workspace, `H/J/K/L` focus, `TAB` back-and-forth, `A` accordion,
+  `S` service mode, `F` fullscreen (`+SHFT` float), `T` tiles, `R` resize mode, `C` Raycast cheat
+  sheet, `SPC` Raycast.
+- Unused positions are `&none`, so a stray key in the layer does nothing.
 
 ## 3. Configuration – making a change
 
