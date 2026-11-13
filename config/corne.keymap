@@ -8,51 +8,156 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 
+// Layout im Betriebssystem: Deutsch (Schweiz) / Schweizerdeutsch.
+// ZMK sendet nur US-Tastenpositionen, darum werden Symbole hier als
+// Tastenkombinationen fuer das CH-DE Layout definiert.
+
+#define BASE      0
+#define LOWER     1
+#define RAISE_WIN 2
+#define MAC       3
+#define RAISE_MAC 4
+
+// CH-DE, gleich auf Windows und macOS
+#define CH_UE    LBKT        // ü
+#define CH_OE    SEMI        // ö
+#define CH_AE    SQT         // ä
+#define CH_EXCL  LS(RBKT)    // !
+#define CH_DQT   LS(N2)      // "
+#define CH_DLLR  BSLH        // $
+#define CH_PRCNT LS(N5)      // %
+#define CH_AMPS  LS(N6)      // &
+#define CH_FSLH  LS(N7)      // /
+#define CH_ASTRK LS(N3)      // *
+#define CH_LPAR  LS(N8)      // (
+#define CH_RPAR  LS(N9)      // )
+#define CH_EQUAL LS(N0)      // =
+#define CH_PLUS  LS(N1)      // +
+#define CH_SQT   MINUS       // '
+#define CH_QMARK LS(MINUS)   // ?
+#define CH_MINUS FSLH        // -
+#define CH_UNDER LS(FSLH)    // _
+#define CH_LT    NUBS        // <
+#define CH_GT    LS(NUBS)    // >
+
+// CH-DE Windows (AltGr = rechte Alt-Taste)
+#define WIN_AT   RA(N2)      // @
+#define WIN_HASH RA(N3)      // #
+#define WIN_PIPE RA(N7)      // |
+#define WIN_BSLH RA(NUBS)    // backslash
+#define WIN_LBKT RA(LBKT)    // [
+#define WIN_RBKT RA(RBKT)    // ]
+#define WIN_LBRC RA(SQT)     // {
+#define WIN_RBRC RA(BSLH)    // }
+#define WIN_EURO RA(E)       // €
+
+// Schweizerdeutsch macOS (Option)
+#define MAC_AT   LA(G)       // @
+#define MAC_HASH LA(N3)      // #
+#define MAC_PIPE LA(N7)      // |
+#define MAC_BSLH LA(LS(N7))  // backslash
+#define MAC_LBKT LA(N5)      // [
+#define MAC_RBKT LA(N6)      // ]
+#define MAC_LBRC LA(N8)      // {
+#define MAC_RBRC LA(N9)      // }
+#define MAC_EURO LA(E)       // €
+
 / {
+        // ^ ` ~ sind auf CH-DE Dead Keys: Taste + Space ergibt das Zeichen direkt
+        macros {
+                ch_caret: ch_caret {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&macro_tap &kp EQUAL &kp SPACE>;
+                };
+                ch_grave: ch_grave {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&macro_tap &kp LS(EQUAL) &kp SPACE>;
+                };
+                win_tilde: win_tilde {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&macro_tap &kp RA(EQUAL) &kp SPACE>;
+                };
+                mac_tilde: mac_tilde {
+                        compatible = "zmk,behavior-macro";
+                        #binding-cells = <0>;
+                        bindings = <&macro_tap &kp LA(N) &kp SPACE>;
+                };
+        };
+
         keymap {
                 compatible = "zmk,keymap";
 
                 default_layer {
 // -----------------------------------------------------------------------------------------
-// |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Y  |  U   |  I  |  O  |  P  | BKSP |
-// | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ;  |  '   |
-// | SHFT |  Z  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  /  | ESC  |
+// |  TAB |  Q  |  W  |  E  |  R  |  T  |   |  Z  |  U   |  I  |  O  |  P  | BKSP |
+// | CTRL |  A  |  S  |  D  |  F  |  G  |   |  H  |  J   |  K  |  L  |  ö  |  ä   |
+// | SHFT |  Y  |  X  |  C  |  V  |  B  |   |  N  |  M   |  ,  |  .  |  -  | ESC  |
 //                    | GUI | LWR | SPC |   | ENT | RSE  | ALT |
                         label = "Base";
                         bindings = <
    &kp TAB   &kp Q &kp W &kp E &kp R &kp T   &kp Y &kp U  &kp I     &kp O   &kp P    &kp BSPC
    &kp LCTRL &kp A &kp S &kp D &kp F &kp G   &kp H &kp J  &kp K     &kp L   &kp SEMI &kp SQT
    &kp LSHFT &kp Z &kp X &kp C &kp V &kp B   &kp N &kp M  &kp COMMA &kp DOT &kp FSLH &kp ESC
-                  &kp LGUI &mo 1 &kp SPACE   &kp RET &mo 2 &kp LALT
+                  &kp LGUI &mo LOWER &kp SPACE   &kp RET &mo RAISE_WIN &kp LALT
                         >;
                 };
                 lower_layer {
 // -----------------------------------------------------------------------------------------
 // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
 // | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-// | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
+// | SHFT | MAC |     |     |     |     |   |     |     |     |     |     |      |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
+// MAC: schaltet Symbol-Layer zwischen Windows (Standard) und macOS um
                         label = "Lower";
                         bindings = <
    &kp TAB    &kp N1       &kp N2       &kp N3       &kp N4       &kp N5         &kp N6   &kp N7   &kp N8 &kp N9    &kp N0 &kp BSPC
    &bt BT_CLR &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4   &kp LEFT &kp DOWN &kp UP &kp RIGHT &trans &trans
-   &kp LSHFT  &trans       &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &trans
+   &kp LSHFT  &tog MAC     &trans       &trans       &trans       &trans         &trans   &trans   &trans &trans    &trans &trans
                           	        &kp LGUI     &trans       &kp SPACE      &kp RET  &trans   &kp LALT
                         >;
                 };
 
-                raise_layer {
+                raise_win_layer {
 // -----------------------------------------------------------------------------------------
 // |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
-// | CTRL |     |     |     |     |     |   |  -  |  =  |  [  |  ]  |  \  |  `   |
-// | SHFT |     |     |     |     |     |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+// | CTRL |  ü  |  ö  |  ä  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  |  `   |
+// | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" |  ~   |
 //                    | GUI |     | SPC |   | ENT |     | ALT |
-                        label = "Raise";
+                        label = "Raise Win";
                         bindings = <
-   &kp  TAB  &kp EXCL &kp AT &kp HASH &kp DLLR &kp PRCNT   &kp CARET &kp AMPS  &kp ASTRK &kp LPAR &kp RPAR &kp BSPC
-   &kp LCTRL &trans   &trans &trans   &trans   &trans      &kp MINUS &kp EQUAL &kp LBKT  &kp RBKT &kp BSLH &kp GRAVE
-   &kp LSHFT &trans   &trans &trans   &trans   &trans      &kp UNDER &kp PLUS  &kp LBRC  &kp RBRC &kp PIPE &kp TILDE
-                    	     &kp LGUI &trans   &kp SPACE   &kp RET   &trans    &kp LALT
+   &kp  TAB  &kp CH_EXCL &kp WIN_AT &kp WIN_HASH &kp CH_DLLR  &kp CH_PRCNT   &ch_caret    &kp CH_AMPS  &kp CH_ASTRK &kp CH_LPAR  &kp CH_RPAR  &kp BSPC
+   &kp LCTRL &kp CH_UE   &kp CH_OE  &kp CH_AE    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp WIN_LBKT &kp WIN_RBKT &kp WIN_BSLH &ch_grave
+   &kp LSHFT &kp CH_LT   &kp CH_GT  &kp CH_QMARK &kp WIN_EURO &kp CH_FSLH    &kp CH_UNDER &kp CH_PLUS  &kp WIN_LBRC &kp WIN_RBRC &kp WIN_PIPE &win_tilde
+                    	     &kp LGUI     &trans       &kp SPACE      &kp RET      &trans       &kp LALT
+                        >;
+                };
+
+                mac_layer {
+// Overlay, aktiv im Mac-Modus: Raise-Taste oeffnet den macOS Symbol-Layer
+                        label = "Mac";
+                        bindings = <
+   &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+   &trans &trans &trans &trans &trans &trans   &trans &trans &trans &trans &trans &trans
+                        &trans &trans &trans   &trans &mo RAISE_MAC &trans
+                        >;
+                };
+
+                raise_mac_layer {
+// -----------------------------------------------------------------------------------------
+// |  TAB |  !  |  @  |  #  |  $  |  %  |   |  ^  |  &  |  *  |  (  |  )  | BKSP |
+// | CTRL |  ü  |  ö  |  ä  |  '  |  "  |   |  -  |  =  |  [  |  ]  |  \  |  `   |
+// | SHFT |  <  |  >  |  ?  |  €  |  /  |   |  _  |  +  |  {  |  }  | "|" |  ~   |
+//                    | GUI |     | SPC |   | ENT |     | ALT |
+                        label = "Raise Mac";
+                        bindings = <
+   &kp  TAB  &kp CH_EXCL &kp MAC_AT &kp MAC_HASH &kp CH_DLLR  &kp CH_PRCNT   &ch_caret    &kp CH_AMPS  &kp CH_ASTRK &kp CH_LPAR  &kp CH_RPAR  &kp BSPC
+   &kp LCTRL &kp CH_UE   &kp CH_OE  &kp CH_AE    &kp CH_SQT   &kp CH_DQT     &kp CH_MINUS &kp CH_EQUAL &kp MAC_LBKT &kp MAC_RBKT &kp MAC_BSLH &ch_grave
+   &kp LSHFT &kp CH_LT   &kp CH_GT  &kp CH_QMARK &kp MAC_EURO &kp CH_FSLH    &kp CH_UNDER &kp CH_PLUS  &kp MAC_LBRC &kp MAC_RBRC &kp MAC_PIPE &mac_tilde
+                    	     &kp LGUI     &trans       &kp SPACE      &kp RET      &trans       &kp LALT
                         >;
                 };
         };
