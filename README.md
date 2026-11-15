@@ -1,3 +1,8 @@
+> **Archived.** This keymap now lives in the dotfiles repo under
+> [`keyboard/`](https://github.com/MikesterFH/dotfiles/tree/main/keyboard)
+> (history kept, see ADR 0025 there). Firmware builds run in that repo's
+> *keyboard firmware* workflow.
+
 # Corne Wireless (nice!view) – ZMK Config
 
 ZMK firmware configuration for a Typeractive Corne Wireless (nice!nano v2 + nice!view)
